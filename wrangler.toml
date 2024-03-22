@@ -1,0 +1,7 @@
+name = "small-links"
+
+compatibility_flags = ["nodejs_compat"]
+
+kv_namespaces = [
+    { binding = "SL_KV", id = "28f740f4a6974474b78f2e5805f857fc", preview_id = "9f3ab85ca7824460a6e91458c8a972ef" },
+]
