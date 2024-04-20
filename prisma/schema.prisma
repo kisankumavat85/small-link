@@ -62,11 +62,11 @@ model VerificationToken {
 }
 
 model ShortURL {
-  id        String     @id @default(cuid())
-  userId    String
-  slug      String     @unique
-  longLink  String
-  analytics Analytics?
+  id       String  @id @default(cuid())
+  userId   String
+  slug     String  @unique
+  longLink String
+  clicks   Click[]
 
   createdAt  DateTime @default(now())
   modifiedAt DateTime @updatedAt
@@ -74,16 +74,19 @@ model ShortURL {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Analytics {
-  id      String @id @default(cuid())
-  linkId  String @unique
-  clicks  Int    @default(0)
-  country Json
-  browser Json
-  os      Json
+model Click {
+  id         String  @id @default(cuid())
+  shortUrlId String
+  country    String?
+  region     String?
+  city       String?
+  browser    String?
+  os         String?
+  ipAddress  String?
+  deviceType String?
 
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  link ShortURL @relation(fields: [linkId], references: [id])
+  shortUrl ShortURL @relation(fields: [shortUrlId], references: [id])
 }

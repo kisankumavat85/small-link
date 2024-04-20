@@ -4,6 +4,7 @@ import { Bungee_Shade } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/header";
+import Layout from "@/components/shared/layout";
 
 const bungee = Bungee_Shade({
   subsets: ["latin"],
@@ -35,8 +36,7 @@ export default function RootLayout({
           inter.variable
         )}
       >
-        <Header />
-        {children}
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

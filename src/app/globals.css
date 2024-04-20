@@ -80,4 +80,8 @@
     background-attachment: fixed;
     background-size: cover;
   }
+
+  .fluid-container {
+    @apply w-full max-w-[1400px] ms-auto me-auto px-4;
+  }
 }

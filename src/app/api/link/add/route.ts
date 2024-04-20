@@ -15,7 +15,6 @@ let expirationTime = 60 * 60 * 24 * 30; // 30 days
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
-    console.log("session", session);
 
     if (!session?.user) {
       expirationTime = 60 * 60 * 24 * 7;
@@ -63,7 +62,6 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.log("error", error);
     return new Response(
       JSON.stringify({ message: "Something went wrong", success: false }),
       {
