@@ -31,45 +31,9 @@ const SignOut = () => {
 const Header = async () => {
   const session = await auth();
 
-  const menuData = {
-    label: "Kisan Kumavat",
-    items: [
-      {
-        label: "Label 1",
-        list: [
-          {
-            title: "Profile",
-            icon: User,
-            shortcut: "⇧⌘P",
-          },
-          {
-            title: "Profile",
-            icon: User,
-            shortcut: "⇧⌘P",
-          },
-        ],
-      },
-      {
-        label: "Label 2",
-        list: [
-          {
-            title: "Profile",
-            icon: User,
-            shortcut: "⇧⌘P",
-          },
-          {
-            title: "Profile",
-            icon: User,
-            shortcut: "⇧⌘P",
-          },
-        ],
-      },
-    ],
-  };
-
   return (
     <header className="fluid-container">
-      <div className="flex justify-center py-4 mt-4">
+      <div className="flex justify-center py-4 md:mt-4">
         <nav className="w-full flex justify-between items-center">
           <Link href="/" className="md:text-3xl text-2xl font-sansBungee">
             YSL
@@ -97,7 +61,7 @@ const Header = async () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link href="/api/auth/signout" className="cursor-pointer">
-                      <DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-500">
                         <LogOut className="mr-2 h-4 w-4" />
                         <SignOut />
                       </DropdownMenuItem>
