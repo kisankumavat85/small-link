@@ -3,14 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AreaChart, Link as LinkIcon } from "lucide-react";
+import { Link as LinkIcon, PanelsTopLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
   {
     name: "Dashboard",
     path: "/dashboard",
-    icon: AreaChart,
+    icon: PanelsTopLeft,
   },
   {
     name: "Links",
@@ -22,7 +22,7 @@ const links = [
 const Sidebar = () => {
   const pathname = usePathname();
   return (
-    <aside className="h-[calc(100vh_-_88px_-_16px_-_16px)] bg-background rounded-3xl p-4 border">
+    <aside className="h-[calc(100vh_-_88px_-_16px_-_16px)] bg-background rounded-2xl p-4 border">
       <ul className=" ">
         {links.map((l) => {
           const active = pathname === l.path;

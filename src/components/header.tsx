@@ -1,10 +1,11 @@
 import React from "react";
-import { auth, signOut } from "@/auth";
-import { Button } from "./ui/button";
 import Link from "next/link";
-import Avatar from "./shared/avatar";
+import { LogOut, PanelsTopLeft } from "lucide-react";
+
+import { auth, signOut } from "@/auth";
 import { getInitials } from "@/utils";
-import { LayoutDashboard, LogOut, User } from "lucide-react";
+import Avatar from "./shared/avatar";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,7 +54,7 @@ const Header = async () => {
                   <DropdownMenuGroup>
                     <Link href="/dashboard" className="cursor-pointer">
                       <DropdownMenuItem>
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <PanelsTopLeft className="mr-2 h-4 w-4" />
                         <span>Dashboard</span>
                       </DropdownMenuItem>
                     </Link>

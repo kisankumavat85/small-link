@@ -84,4 +84,13 @@
   .fluid-container {
     @apply w-full max-w-[1400px] ms-auto me-auto px-6;
   }
+
+  .dark-gradient {
+    background: linear-gradient(
+      -45deg,
+      rgba(37, 37, 37, 1) 4%,
+      rgba(38, 38, 38, 1) 7%,
+      rgba(0, 0, 0, 1) 80%
+    );
+  }
 }
