@@ -7,11 +7,13 @@ import {
   Tooltip,
   XAxis,
   ResponsiveContainer,
+  YAxis,
+  CartesianGrid,
 } from "recharts";
 
 type Props = {
   data: {
-    name: string;
+    name: any;
     value: number | string;
   }[];
 };
@@ -19,13 +21,20 @@ type Props = {
 const LineChart = ({ data }: Props) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <Chart data={data}>
-        <XAxis dataKey="name" axisLine={false} tickLine={false} />
+      <Chart data={data} margin={{ right: 30, left: 20 }}>
+        <CartesianGrid vertical={false} strokeOpacity={0.2} />
+        <XAxis
+          dataKey="name"
+          axisLine={false}
+          tickLine={false}
+          tickMargin={5}
+        />
+        <YAxis hide dataKey="value" axisLine={false} />
         <Tooltip
           contentStyle={{
             backgroundColor: "black",
-            border: "1px solid white",
-            borderRadius: "16px",
+            border: "1px solid #414141",
+            borderRadius: "10px",
           }}
         />
         <Line

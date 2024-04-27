@@ -6,5 +6,5 @@ import { prisma } from "./lib/prisma";
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [Google],
-  debug: true,
+  debug: process.env.NODE_ENV === "development" ? true : false,
 });

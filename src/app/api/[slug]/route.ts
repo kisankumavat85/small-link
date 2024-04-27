@@ -54,7 +54,7 @@ export const GET = async (
 
     const data: any = {
       os: os.name,
-      browser: browser.name,
+      browser: browser.name === "Microsoft Edge" ? "Edge" : browser.name,
       deviceType: platform.type,
     };
 
