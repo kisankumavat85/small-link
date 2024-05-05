@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const res = await fetch(`${workerUrl!}/link/add`, {
+    const response = await fetch(`${workerUrl!}/link/add`, {
       method: "post",
       body: JSON.stringify({
         originalUrl: result.data.url,
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const data = (await res.json()) as {
+    const jsonData = (await response.json()) as {
       success: boolean;
       slug: string;
       originalUrl: string;
@@ -48,21 +48,21 @@ export async function POST(request: NextRequest) {
     if (session?.user?.id) {
       await prisma.shortURL.create({
         data: {
-          slug: data.slug,
-          longLink: data.originalUrl,
+          slug: jsonData.slug,
+          longLink: jsonData.originalUrl,
           user: { connect: { id: session.user.id } },
         },
       });
     }
 
     const origin = new URL(request.url).origin;
-    const shortLink = `${origin}/${data.slug}`;
+    const shortLink = `${origin}/${jsonData.slug}`;
 
     return new Response(
       JSON.stringify({
         success: true,
         message: "Link shortened",
-        data: { shortLink, longLink: data.originalUrl },
+        data: { shortLink, longLink: jsonData.originalUrl },
       }),
       {
         status: 200,
