@@ -1,10 +1,11 @@
-import { prisma } from "@/lib/prisma";
-import { getRequestContext } from "@cloudflare/next-on-pages";
 import { NextRequest } from "next/server";
 import Bowser from "bowser";
+
+import { prisma } from "@/lib/prisma";
 import { getGeoLocationFromIP } from "@/server-actions/geo-location";
 
-export const runtime = "edge";
+const workerUrl = process.env.WORKER_URL;
+const apiKey = process.env.API_KEY!;
 
 type Params = { params: { slug: string } };
 
@@ -22,10 +23,20 @@ export const GET = async (
   }
 
   try {
-    const kv = getRequestContext().env.SL_KV;
-    const link = await kv.get(slug);
+    const res = await fetch(`${workerUrl!}/link/${slug}`, {
+      method: "GET",
+      headers: {
+        "x-api-key": apiKey,
+      },
+    });
 
-    if (!link) {
+    const resData = (await res.json()) as {
+      success: string;
+      originalUrl: string;
+      slug: string;
+    };
+
+    if (!resData.originalUrl) {
       return new Response(null, {
         headers: { Location: origin },
         status: 302,
@@ -42,7 +53,7 @@ export const GET = async (
 
     if (!shortLink?.id) {
       return new Response(null, {
-        headers: { Location: link },
+        headers: { Location: resData.originalUrl },
         status: 302,
       });
     }
@@ -50,29 +61,29 @@ export const GET = async (
     const userAgent = request.headers.get("User-Agent");
     const { os, browser, platform } = Bowser.parse(userAgent || "");
 
-    let ipData = await getGeoLocationFromIP();
+    let geoLocation = await getGeoLocationFromIP();
 
-    const data: any = {
+    const analytics: any = {
       os: os.name,
       browser: browser.name === "Microsoft Edge" ? "Edge" : browser.name,
       deviceType: platform.type,
     };
 
-    if (ipData) {
-      data.country = ipData.country;
-      data.region = ipData.region;
-      data.city = ipData.city;
+    if (geoLocation) {
+      analytics.country = geoLocation.country;
+      analytics.region = geoLocation.region;
+      analytics.city = geoLocation.city;
     }
 
     await prisma.click.create({
       data: {
-        ...data,
+        ...analytics,
         shortUrlId: shortLink.id,
       },
     });
 
     return new Response(null, {
-      headers: { Location: link },
+      headers: { Location: resData.originalUrl },
       status: 302,
     });
   } catch (error) {

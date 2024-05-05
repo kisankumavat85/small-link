@@ -1,3 +1,5 @@
+"use server";
+
 export const getPageTitle = async (url: string): Promise<string | null> => {
   try {
     const response = await fetch(url);

@@ -1,16 +1,12 @@
 import type { NextRequest } from "next/server";
-import { getRequestContext } from "@cloudflare/next-on-pages";
-import { nanoid } from "nanoid";
 
-import {
-  type AddLinkReqBody,
-  addLinkReqBodySchema,
-} from "@/validation-schemas";
+import { addLinkReqBodySchema } from "@/validation-schemas";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
-export const runtime = "edge";
 let expirationTime = 60 * 60 * 24 * 30; // 30 days
+const workerUrl = process.env.WORKER_URL;
+const apiKey = process.env.API_KEY!;
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,7 +16,7 @@ export async function POST(request: NextRequest) {
       expirationTime = 60 * 60 * 24 * 7;
     }
 
-    const body = await request.json<AddLinkReqBody>();
+    const body = await request.json();
     const result = addLinkReqBodySchema.safeParse(body);
 
     if (!result.success) {
@@ -32,30 +28,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const slug = nanoid(7);
-    const origin = new URL(request.url).origin;
-    const shortLink = `${origin}/${slug}`;
-
-    const kv = getRequestContext().env.SL_KV;
-    await kv.put(slug, result.data.url, {
-      expirationTtl: result.data?.expiration || expirationTime,
+    const res = await fetch(`${workerUrl!}/link/add`, {
+      method: "post",
+      body: JSON.stringify({
+        originalUrl: result.data.url,
+        expiration: result.data.expiration ?? expirationTime,
+      }),
+      headers: {
+        "x-api-key": apiKey,
+      },
     });
+
+    const data = (await res.json()) as {
+      success: boolean;
+      slug: string;
+      originalUrl: string;
+    };
 
     if (session?.user?.id) {
       await prisma.shortURL.create({
         data: {
-          slug,
-          longLink: result.data.url,
+          slug: data.slug,
+          longLink: data.originalUrl,
           user: { connect: { id: session.user.id } },
         },
       });
     }
 
+    const origin = new URL(request.url).origin;
+    const shortLink = `${origin}/${data.slug}`;
+
     return new Response(
       JSON.stringify({
         success: true,
         message: "Link shortened",
-        data: { shortLink, longLink: result.data.url },
+        data: { shortLink, longLink: data.originalUrl },
       }),
       {
         status: 200,
