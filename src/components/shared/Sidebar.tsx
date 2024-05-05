@@ -3,8 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Link as LinkIcon, PanelsTopLeft } from "lucide-react";
+import { Link as LinkIcon, PanelsTopLeft, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 
 const links = [
   {
@@ -22,7 +24,13 @@ const links = [
 const Sidebar = () => {
   const pathname = usePathname();
   return (
-    <aside className="h-[calc(100vh_-_88px_-_16px_-_16px)] bg-background rounded-2xl p-4 border">
+    <aside className="flex flex-col gap-2 h-[calc(100vh_-_88px_-_16px_-_16px)] bg-black rounded-2xl p-4 border">
+      <Button className="w-full rounded-lg" variant="outline">
+        <span className="flex gap-2 items-center">
+          <Plus className="w-4 h-4" /> Short link
+        </span>
+      </Button>
+      <Separator className="my-4" />
       <ul className=" ">
         {links.map((l) => {
           const active = pathname === l.path;

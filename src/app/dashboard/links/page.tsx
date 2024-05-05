@@ -1,9 +1,7 @@
-import React from "react";
-
-// export const runtime = "edge";
+import Links from "@/components/pages/Links";
 
 const LinksPage = () => {
-  return <div>LinksPage</div>;
+  return <Links />;
 };
 
 export default LinksPage;
