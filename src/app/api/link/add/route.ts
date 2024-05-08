@@ -39,6 +39,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    if (response.status !== 200) {
+      return new Response(
+        JSON.stringify({ message: "Something went wrong", success: false }),
+        {
+          status: 500,
+        }
+      );
+    }
+
     const jsonData = (await response.json()) as {
       success: boolean;
       slug: string;
@@ -69,6 +78,7 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
+    console.log("link/add error:", error);
     return new Response(
       JSON.stringify({ message: "Something went wrong", success: false }),
       {
