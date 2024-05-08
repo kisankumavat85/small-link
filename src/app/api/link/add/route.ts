@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const response = await fetch(`${workerUrl!}/link/add`, {
+    const response = await fetch(`${workerUrl!}/api/link/add`, {
       method: "post",
       body: JSON.stringify({
         originalUrl: result.data.url,
@@ -40,6 +40,11 @@ export async function POST(request: NextRequest) {
     });
 
     if (response.status !== 200) {
+      console.log("------ Error here");
+      console.log(
+        "-----(await response.json()) ----------------",
+        await response.json()
+      );
       return new Response(
         JSON.stringify({ message: "Something went wrong", success: false }),
         {
@@ -53,6 +58,7 @@ export async function POST(request: NextRequest) {
       slug: string;
       originalUrl: string;
     };
+    console.log("jsonData", jsonData);
 
     if (session?.user?.id) {
       await prisma.shortURL.create({
@@ -78,7 +84,8 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.log("link/add error:", error);
+    console.log("++++++++++++++++++++++++ Error here", error);
+
     return new Response(
       JSON.stringify({ message: "Something went wrong", success: false }),
       {

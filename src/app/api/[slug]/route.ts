@@ -23,7 +23,7 @@ export const GET = async (
   }
 
   try {
-    const res = await fetch(`${workerUrl!}/link/${slug}`, {
+    const res = await fetch(`${workerUrl!}/api/link/${slug}`, {
       method: "GET",
       headers: {
         "x-api-key": apiKey,
