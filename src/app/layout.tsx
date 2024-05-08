@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Bungee_Shade } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 import Layout from "@/components/shared/layout";
 import "./globals.css";
 
@@ -12,9 +13,10 @@ const bungee = Bungee_Shade({
   variable: "--font-bungee",
 });
 
-const inter = Inter({
+const inter = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-poppins",
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -37,6 +39,7 @@ export default function RootLayout({
         )}
       >
         <Layout>{children}</Layout>
+        <Toaster />
       </body>
     </html>
   );

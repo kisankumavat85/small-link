@@ -1,17 +1,21 @@
 "use client";
 
+import React, { useState } from "react";
+import Link from "next/link";
+import { Globe } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React, { MouseEvent, MouseEventHandler, useState } from "react";
-import { Copy, Globe, QrCode } from "lucide-react";
-import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+import CopyButton from "@/components/shared/copy-button";
 
 export default function Home() {
   const [longLink, setLongLink] = useState("");
+  const [longLinkCopy, setLongLinkCopy] = useState("");
   const [shortLink, setShortLink] = useState("");
-  const [message, setMessage] = useState("");
+  const { toast } = useToast();
 
-  const handleClick = (e: any) => {
+  const handleClick = () => {
     (async () => {
       try {
         const res = await fetch("/api/link/add", {
@@ -23,7 +27,14 @@ export default function Home() {
 
         const { data } = (await res.json()) as any;
         setShortLink(data.shortLink);
-      } catch (error) {}
+        setLongLinkCopy(longLink);
+        setLongLink("");
+      } catch (error) {
+        toast({
+          title: "Could not short link",
+          variant: "destructive",
+        });
+      }
     })();
   };
 
@@ -63,28 +74,20 @@ export default function Home() {
                   href={shortLink}
                   target="_blank"
                   referrerPolicy="no-referrer"
-                  className="flex gap-1 w-full h-[40px] items-center justify-start underline rounded-md text-blue-600"
+                  className="flex gap-2 w-full h-[40px] items-center justify-start underline rounded-md text-blue-600"
                 >
-                  <Globe className="h-5 w-5" /> {shortLink}
+                  <Globe className="h-5 w-5 flex-shrink-0" />
+                  <span className="break-all text-left">{shortLink}</span>
                 </Link>
                 <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    className="flex-shrink-0"
-                    size="icon"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-shrink-0"
-                    size="icon"
-                  >
-                    <QrCode className="h-4 w-4" />
-                  </Button>
+                  <CopyButton text={shortLink} />
                 </div>
               </div>
-              <p className="text-[14px] text-left">URL: {longLink}</p>
+              <p className="flex gap-2 w-full items-center justify-start">
+                <span className="break-all text-left">
+                  Link: {longLinkCopy}
+                </span>
+              </p>
             </div>
           )}
         </div>

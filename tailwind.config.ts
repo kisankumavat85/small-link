@@ -20,7 +20,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", ...fontFamily.sans],
+        sans: ["var(--font-poppins)", ...fontFamily.sans],
         sansBungee: ["var(--font-bungee)", ...fontFamily.sans],
       },
       colors: {
