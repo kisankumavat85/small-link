@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Analytics" ALTER COLUMN "country" DROP NOT NULL,
+ALTER COLUMN "browser" DROP NOT NULL,
+ALTER COLUMN "os" DROP NOT NULL;

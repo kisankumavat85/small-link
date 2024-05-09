@@ -1,8 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
+import { Bungee_Shade } from "next/font/google";
+
+import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
+import Layout from "@/components/shared/layout";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const bungee = Bungee_Shade({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bungee",
+});
+
+const inter = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +31,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={cn(
+          "svgBg font-sans antialiased dark h-dvh",
+          bungee.variable,
+          inter.variable
+        )}
+      >
+        <Layout>{children}</Layout>
+        <Toaster />
+      </body>
     </html>
   );
 }
