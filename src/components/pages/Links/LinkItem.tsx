@@ -16,7 +16,7 @@ const LinkItem = async ({ link }: { link: ShortUrlCount }) => {
 
   return (
     <li
-      className="p-4 border border-transparent border-e-[8px] hover:border-secondary hover:shadow-lg rounded-lg"
+      className="p-4 border border-transparent border-b-[8px] hover:border-secondary hover:shadow-lg rounded-lg"
       key={link.id}
     >
       <div className="grid grid-cols-12 gap-4">

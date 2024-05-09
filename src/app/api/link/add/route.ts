@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const session = await auth();
 
     if (!session?.user) {
-      expirationTime = 60 * 60 * 24 * 7;
+      expirationTime = 60 * 60 * 24 * 7; // 7 days
     }
 
     const body = await request.json();
@@ -40,11 +40,6 @@ export async function POST(request: NextRequest) {
     });
 
     if (response.status !== 200) {
-      console.log("------ Error here");
-      console.log(
-        "-----(await response.json()) ----------------",
-        await response.json()
-      );
       return new Response(
         JSON.stringify({ message: "Something went wrong", success: false }),
         {
@@ -58,7 +53,6 @@ export async function POST(request: NextRequest) {
       slug: string;
       originalUrl: string;
     };
-    console.log("jsonData", jsonData);
 
     if (session?.user?.id) {
       await prisma.shortURL.create({
@@ -84,8 +78,6 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.log("++++++++++++++++++++++++ Error here", error);
-
     return new Response(
       JSON.stringify({ message: "Something went wrong", success: false }),
       {

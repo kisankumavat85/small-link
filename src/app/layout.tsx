@@ -16,7 +16,7 @@ const bungee = Bungee_Shade({
 const inter = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

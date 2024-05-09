@@ -1,21 +1,21 @@
 "use client";
 
-import { Copy } from "lucide-react";
+import { useState, useCallback, useMemo } from "react";
+import { Check, Copy } from "lucide-react";
 
 import { Button } from "../ui/button";
-import { useToast } from "../ui/use-toast";
 import { copyToClipboard } from "@/utils";
 
 const CopyButton = ({ text }: { text: string }) => {
-  const { toast } = useToast();
+  const [isCopied, setIsCopied] = useState(false);
 
-  const copyButtonHandler = async () => {
-    const isCopied = await copyToClipboard(text);
-    toast({
-      title: isCopied ? "Link copied" : "Could not copy",
-      variant: isCopied ? "default" : "destructive",
-    });
-  };
+  const copyButtonHandler = useCallback(async () => {
+    const copied = await copyToClipboard(text);
+    setIsCopied(copied);
+    setTimeout(() => setIsCopied(false), 1500);
+  }, [text]);
+
+  const Icon = useMemo(() => (isCopied ? Check : Copy), [isCopied]);
 
   return (
     <Button
@@ -24,7 +24,7 @@ const CopyButton = ({ text }: { text: string }) => {
       size="icon"
       onClick={copyButtonHandler}
     >
-      <Copy className="h-4 w-4" />
+      <Icon className="h-4 w-4" />
     </Button>
   );
 };
