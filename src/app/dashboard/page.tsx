@@ -8,7 +8,7 @@ const DashboardPage = async () => {
   const session = await auth();
   if (!session?.user?.id) return redirect("/");
 
-  return <Dashboard />;
+  return <Dashboard userId={session.user.id} userName={session.user.name} />;
 };
 
 export default DashboardPage;
