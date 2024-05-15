@@ -1,29 +1,55 @@
-"use client";
-
 import React from "react";
+import { redirect } from "next/navigation";
 import { Clock, MousePointerClick } from "lucide-react";
 
+import { auth } from "@/auth";
+import {
+  getClicksCountByDays,
+  getClicksCountPerDay,
+  // getMostClickedURLs,
+  getTopClicksCountBy,
+  getTotalClicksCount,
+  getClickByAnHour,
+  getClickByWeek,
+  getClickByMonth,
+} from "@/server-actions/analytics";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import BarChart from "../shared/bar-chart";
 import LineChart from "../shared/line-chart";
-import useAnalytics from "@/hooks/use-analytics";
 
-const Dashboard = ({ userId, userName }: { userId: string; userName: any }) => {
-  const {
-    data: {
-      totalClicks,
-      clicksToday,
-      clicksByWeek,
-      clicksByMonth,
-      clicksPerDay,
-      topClicksByBrowsers,
-      topClicksByCountries,
-      topClicksByOs,
-      clicksThisWeek,
-      clicksThisMonth,
-      clicksByAnHour,
-    },
-  } = useAnalytics(userId);
+export const maxDuration = 60;
+
+const Dashboard = async () => {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) return redirect("/");
+
+  const [
+    totalClicks,
+    clicksToday,
+    clicksThisWeek,
+    clicksThisMonth,
+    clicksPerDay,
+    // mostClickedUrls,
+    topClicksByBrowsers,
+    topClicksByCountries,
+    topClicksByOs,
+  ] = await Promise.all([
+    getTotalClicksCount(userId),
+    getClicksCountByDays(-1, userId),
+    getClicksCountByDays(-7, userId),
+    getClicksCountByDays(-30, userId),
+    getClicksCountPerDay(userId),
+    // getMostClickedURLs(userId),
+    getTopClicksCountBy(userId, "browser"),
+    getTopClicksCountBy(userId, "country"),
+    getTopClicksCountBy(userId, "os"),
+  ]);
+
+  const clicksByMonth = await getClickByMonth(userId);
+  const clicksByWeek = await getClickByWeek(userId);
+  const clicksByAnHour = await getClickByAnHour(userId);
 
   return (
     <div>
@@ -32,7 +58,7 @@ const Dashboard = ({ userId, userName }: { userId: string; userName: any }) => {
           <h3 className="flex flex-col">
             <span className="text">Hello,</span>
             <span className="text-3xl font-sansBungee">
-              {userName.split(" ")[0]}
+              {session.user?.name?.split(" ")[0]}
             </span>
           </h3>
         </div>
