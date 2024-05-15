@@ -6,7 +6,6 @@ import { auth } from "@/auth";
 import {
   getClicksCountByDays,
   getClicksCountPerDay,
-  // getMostClickedURLs,
   getTopClicksCountBy,
   getTotalClicksCount,
   getClickByAnHour,
@@ -31,7 +30,6 @@ const Dashboard = async () => {
     clicksThisWeek,
     clicksThisMonth,
     clicksPerDay,
-    // mostClickedUrls,
     topClicksByBrowsers,
     topClicksByCountries,
     topClicksByOs,
@@ -41,7 +39,6 @@ const Dashboard = async () => {
     getClicksCountByDays(-7, userId),
     getClicksCountByDays(-30, userId),
     getClicksCountPerDay(userId),
-    // getMostClickedURLs(userId),
     getTopClicksCountBy(userId, "browser"),
     getTopClicksCountBy(userId, "country"),
     getTopClicksCountBy(userId, "os"),
