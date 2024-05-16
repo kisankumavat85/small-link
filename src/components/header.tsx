@@ -52,7 +52,7 @@ const Header = async () => {
                   <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <Link href="/dashboard" className="cursor-pointer">
+                    <Link href="/dashboard" prefetch className="cursor-pointer">
                       <DropdownMenuItem>
                         <PanelsTopLeft className="mr-2 h-4 w-4" />
                         <span>Dashboard</span>
