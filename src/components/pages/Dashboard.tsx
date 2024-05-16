@@ -2,7 +2,6 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { Clock, MousePointerClick } from "lucide-react";
 
-import { auth } from "@/auth";
 import {
   getClicksCountByDays,
   getClicksCountPerDay,
@@ -15,35 +14,20 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import BarChart from "../shared/bar-chart";
 import LineChart from "../shared/line-chart";
+import { Session } from "next-auth";
 
-export const maxDuration = 60;
-
-const Dashboard = async () => {
-  const session = await auth();
+const Dashboard = async ({ session }: { session: Session }) => {
   const userId = session?.user?.id;
-
   if (!userId) return redirect("/");
 
-  const [
-    totalClicks,
-    clicksToday,
-    clicksThisWeek,
-    clicksThisMonth,
-    clicksPerDay,
-    topClicksByBrowsers,
-    topClicksByCountries,
-    topClicksByOs,
-  ] = await Promise.all([
-    getTotalClicksCount(userId),
-    getClicksCountByDays(-1, userId),
-    getClicksCountByDays(-7, userId),
-    getClicksCountByDays(-30, userId),
-    getClicksCountPerDay(userId),
-    getTopClicksCountBy(userId, "browser"),
-    getTopClicksCountBy(userId, "country"),
-    getTopClicksCountBy(userId, "os"),
-  ]);
-
+  const totalClicks = await getTotalClicksCount(userId);
+  const clicksToday = await getClicksCountByDays(-1, userId);
+  const clicksThisWeek = await getClicksCountByDays(-7, userId);
+  const clicksThisMonth = await getClicksCountByDays(-30, userId);
+  const clicksPerDay = await getClicksCountPerDay(userId);
+  const topClicksByBrowsers = await getTopClicksCountBy(userId, "browser");
+  const topClicksByCountries = await getTopClicksCountBy(userId, "country");
+  const topClicksByOs = await getTopClicksCountBy(userId, "os");
   const clicksByMonth = await getClickByMonth(userId);
   const clicksByWeek = await getClickByWeek(userId);
   const clicksByAnHour = await getClickByAnHour(userId);
