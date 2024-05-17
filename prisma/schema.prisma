@@ -70,6 +70,7 @@ model ShortURL {
   slug     String  @unique
   longLink String
   clicks   Click[]
+  title    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
