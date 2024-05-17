@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { ShortURL } from "@prisma/client";
 import { formatDate } from "@/utils";
-import { getPageTitle } from "@/server-actions/link";
 import { Separator } from "@/components/ui/separator";
 import CopyButton from "@/components/shared/copy-button";
 
@@ -12,7 +11,6 @@ interface ShortUrlCount extends ShortURL {
 
 const LinkItem = async ({ link }: { link: ShortUrlCount }) => {
   const fullUrl = `${process.env.ORIGIN_URL}/${link.slug}`;
-  const title = await getPageTitle(link.longLink);
 
   return (
     <li
@@ -23,9 +21,9 @@ const LinkItem = async ({ link }: { link: ShortUrlCount }) => {
         <div className="col-span-10">
           <h3
             className="text-xl font-semibold truncate"
-            title={title ? title : link.slug}
+            title={link.title ? link.title : link.slug}
           >
-            {title ? title : `${link.slug} - Untitled`}
+            {link.title ? link.title : `${link.slug} - Untitled`}
           </h3>
           <Link
             href={fullUrl}

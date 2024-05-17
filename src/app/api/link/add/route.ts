@@ -4,6 +4,7 @@ import { addLinkReqBodySchema } from "@/validation-schemas";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import { getPageTitle } from "@/server-actions/link";
 
 let expirationTime = 60 * 60 * 24 * 30; // 30 days
 const workerUrl = process.env.WORKER_URL;
@@ -56,10 +57,13 @@ export async function POST(request: NextRequest) {
     };
 
     if (session?.user?.id) {
+      const title = await getPageTitle(jsonData.originalUrl);
+
       await prisma.shortURL.create({
         data: {
           slug: jsonData.slug,
           longLink: jsonData.originalUrl,
+          title,
           user: { connect: { id: session.user.id } },
         },
       });
