@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { LogOut, PanelsTopLeft } from "lucide-react";
+import { getServerSession } from "next-auth";
 
-import { auth, signOut } from "@/auth";
 import { getInitials } from "@/utils";
 import Avatar from "./shared/avatar";
 import { Button } from "./ui/button";
@@ -15,22 +15,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-
-const SignOut = () => {
-  return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut();
-      }}
-    >
-      <button type="submit">Sign Out</button>
-    </form>
-  );
-};
+import { authOptions } from "@/lib/auth";
+import SignOut from "./shared/sign-out";
+import SignIn from "./shared/sign-in";
 
 const Header = async () => {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   return (
     <header className="fluid-container">
@@ -73,7 +63,8 @@ const Header = async () => {
             ) : (
               <div className="">
                 <Link href="/api/auth/signin">
-                  <Button variant="outline">Sign In</Button>
+                  {/* <Button variant="outline">Sign In</Button> */}
+                  <SignIn />
                 </Link>
               </div>
             )}

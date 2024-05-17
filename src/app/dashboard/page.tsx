@@ -1,11 +1,13 @@
 import React from "react";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import Dashboard from "@/components/pages/Dashboard";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const DashboardPage = async () => {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
+
   if (!session?.user?.id) return redirect("/");
 
   return <Dashboard session={session} />;

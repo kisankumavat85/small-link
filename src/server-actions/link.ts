@@ -1,9 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/auth";
 
 export const getPageTitle = async (url: string): Promise<string | null> => {
   try {
@@ -31,7 +32,7 @@ export const getPageTitle = async (url: string): Promise<string | null> => {
 };
 
 export const getAllLinks = async () => {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     redirect("/");

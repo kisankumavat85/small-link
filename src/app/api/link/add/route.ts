@@ -2,7 +2,8 @@ import type { NextRequest } from "next/server";
 
 import { addLinkReqBodySchema } from "@/validation-schemas";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
 let expirationTime = 60 * 60 * 24 * 30; // 30 days
 const workerUrl = process.env.WORKER_URL;
@@ -10,7 +11,7 @@ const apiKey = process.env.API_KEY!;
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth();
+    const session = await getServerSession(authOptions);
 
     if (!session?.user) {
       expirationTime = 60 * 60 * 24 * 7; // 7 days

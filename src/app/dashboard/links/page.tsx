@@ -1,10 +1,11 @@
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
-import { auth } from "@/auth";
 import Links from "@/components/pages/Links";
+import { authOptions } from "@/lib/auth";
 
 const LinksPage = async () => {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   if (!session?.user) {
     redirect("/");
