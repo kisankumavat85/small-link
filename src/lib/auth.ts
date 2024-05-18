@@ -19,13 +19,6 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    // redirect: async ({ baseUrl, url }) => {
-    //   // Allows relative callback URLs
-    //   if (url.startsWith("/")) return `${baseUrl}${url}`;
-    //   // Allows callback URLs on the same origin
-    //   else if (new URL(url).origin === baseUrl) return url;
-    //   return baseUrl;
-    // },
   },
-  debug: true,
+  debug: process.env.NODE_ENV === "development" ? true : false,
 };
