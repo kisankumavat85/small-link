@@ -27,7 +27,7 @@ const Header = async () => {
       <div className="flex justify-center py-4 md:mt-4">
         <nav className="w-full flex justify-between items-center">
           <Link href="/" className="md:text-3xl text-2xl font-sansBungee">
-            YSL
+            SL
           </Link>
           <div className="flex justify-end">
             {session?.user ? (
