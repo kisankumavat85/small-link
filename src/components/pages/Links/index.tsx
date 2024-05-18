@@ -1,5 +1,5 @@
 import { Separator } from "../../ui/separator";
-import { getAllLinks } from "@/server-actions/link";
+import { getAllLinks } from "@/actions/link";
 import LinkItem from "./LinkItem";
 
 const Links = async () => {

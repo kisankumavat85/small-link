@@ -10,7 +10,7 @@ import {
   getClickByAnHour,
   getClickByWeek,
   getClickByMonth,
-} from "@/server-actions/analytics";
+} from "@/actions/analytics";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import BarChart from "../shared/bar-chart";
 import LineChart from "../shared/line-chart";
