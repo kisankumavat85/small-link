@@ -7,7 +7,7 @@ const Links = async () => {
 
   return (
     <div className="grid grid-cols-12 gap-6">
-      <div className="col-span-12 flex flex-col gap-6 border px-6 py-4 rounded-xxl bg-black">
+      <div className="col-span-12 flex flex-col gap-6 border lg:px-6 px-3 py-4 rounded-xxl bg-black">
         <div className="flex justify-between items-center">
           <div className="">
             <h2 className="text-3xl font-semibold">Your Links</h2>
