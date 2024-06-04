@@ -1,11 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { LogOut, PanelsTopLeft } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { getServerSession } from "next-auth";
 
 import { getInitials } from "@/utils";
 import Avatar from "./shared/avatar";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +17,7 @@ import {
 import { authOptions } from "@/lib/auth";
 import SignOut from "./shared/sign-out";
 import SignIn from "./shared/sign-in";
+import { navLinks } from "@/constants";
 
 const Header = async () => {
   const session = await getServerSession(authOptions);
@@ -41,14 +41,20 @@ const Header = async () => {
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <Link href="/dashboard" prefetch className="cursor-pointer">
-                      <DropdownMenuItem>
-                        <PanelsTopLeft className="mr-2 h-4 w-4" />
-                        <span>Dashboard</span>
-                      </DropdownMenuItem>
-                    </Link>
-                  </DropdownMenuGroup>
+                  {navLinks.map((link) => (
+                    <DropdownMenuGroup key={link.name}>
+                      <Link
+                        href={link.path}
+                        prefetch
+                        className="cursor-pointer"
+                      >
+                        <DropdownMenuItem>
+                          <link.icon className="mr-2 h-4 w-4" />
+                          <span>{link.name}</span>
+                        </DropdownMenuItem>
+                      </Link>
+                    </DropdownMenuGroup>
+                  ))}
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link href="/api/auth/signout" className="cursor-pointer">
@@ -62,10 +68,9 @@ const Header = async () => {
               </DropdownMenu>
             ) : (
               <div className="">
-                <Link href="/api/auth/signin">
-                  {/* <Button variant="outline">Sign In</Button> */}
-                  <SignIn />
-                </Link>
+                {/* <Link href="/api/auth/signin"> */}
+                <SignIn />
+                {/* </Link> */}
               </div>
             )}
           </div>

@@ -7,7 +7,7 @@ import {
   getClickByAnHour,
   getClickByWeek,
   getClickByMonth,
-} from "@/server-actions/analytics";
+} from "@/actions/analytics";
 
 interface AnalyticsData {
   totalClicks: null | number;

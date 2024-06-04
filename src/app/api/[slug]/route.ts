@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import Bowser from "bowser";
 
 import { prisma } from "@/lib/prisma";
-import { getGeoLocationFromIP } from "@/server-actions/geo-location";
+import { getGeoLocationFromIP } from "@/actions/geo-location";
 
 const workerUrl = process.env.WORKER_URL;
 const apiKey = process.env.API_KEY!;

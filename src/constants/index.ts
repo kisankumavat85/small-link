@@ -1,3 +1,5 @@
+import { LinkIcon, PanelsTopLeft } from "lucide-react";
+
 export const weekDays: Record<number, string> = {
   0: "Sun",
   1: "Mon",
@@ -7,3 +9,16 @@ export const weekDays: Record<number, string> = {
   5: "Fri",
   6: "Sat",
 };
+
+export const navLinks = [
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: PanelsTopLeft,
+  },
+  {
+    name: "Links",
+    path: "/dashboard/links",
+    icon: LinkIcon,
+  },
+];

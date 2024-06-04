@@ -10,7 +10,7 @@ import {
   getClickByAnHour,
   getClickByWeek,
   getClickByMonth,
-} from "@/server-actions/analytics";
+} from "@/actions/analytics";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import BarChart from "../shared/bar-chart";
 import LineChart from "../shared/line-chart";
@@ -34,8 +34,8 @@ const Dashboard = async ({ session }: { session: Session }) => {
 
   return (
     <div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-9 grid-cols-1 gap-6">
-        <div className="dark-gradient  rounded-2xl border file:rounded-2xl p-4 col-span-3 flex flex-col gap-2 justify-between">
+      <div className="grid grid-cols-9  gap-6">
+        <div className="dark-gradient  rounded-2xl border file:rounded-2xl p-4 lg:col-span-3 col-span-9 flex flex-col gap-2 justify-between">
           <h3 className="flex flex-col">
             <span className="text">Hello,</span>
             <span className="text-3xl font-sansBungee">
@@ -43,7 +43,7 @@ const Dashboard = async ({ session }: { session: Session }) => {
             </span>
           </h3>
         </div>
-        <div className="bg-black rounded-2xl border p-4 col-span-3 flex flex-col gap-2 justify-between">
+        <div className="bg-black rounded-2xl border p-4 lg:col-span-3 col-span-9 flex flex-col gap-2 justify-between">
           <div className="flex">
             <div className="p-2 bg-secondary rounded-md">
               <MousePointerClick className="w-4 h-4" />
@@ -55,7 +55,7 @@ const Dashboard = async ({ session }: { session: Session }) => {
             <span className="text-gray-500 text-sm">clicks</span>
           </div>
         </div>
-        <div className="bg-black rounded-2xl border p-4 col-span-3 flex flex-col gap-2 justify-between">
+        <div className="bg-black rounded-2xl border p-4 lg:col-span-3 col-span-9 flex flex-col gap-2 justify-between">
           <div className="flex">
             <div className="p-2 bg-secondary rounded-md">
               <Clock className="w-4 h-4" />
@@ -68,7 +68,7 @@ const Dashboard = async ({ session }: { session: Session }) => {
           </div>
         </div>
 
-        <div className="col-span-5 w-full bg-black rounded-2xl border p-4">
+        <div className="lg:col-span-5 col-span-9 w-full bg-black rounded-2xl border p-4">
           <Tabs
             defaultValue="today"
             className="flex flex-col items-start gap-8"
@@ -90,7 +90,7 @@ const Dashboard = async ({ session }: { session: Session }) => {
           </Tabs>
         </div>
 
-        <div className="col-span-4 w-full bg-black rounded-2xl border p-4">
+        <div className="lg:col-span-4 col-span-9 w-full bg-black rounded-2xl border p-4">
           <Tabs
             defaultValue="countries"
             className="flex flex-col items-start gap-8"
@@ -112,21 +112,21 @@ const Dashboard = async ({ session }: { session: Session }) => {
           </Tabs>
         </div>
 
-        <div className="bg-black rounded-2xl border p-4 col-span-3 flex flex-col gap-2 justify-between">
+        <div className="bg-black rounded-2xl border p-4 lg:col-span-3 col-span-9 flex flex-col gap-2 justify-between">
           <h3 className="text-gray-500">Today</h3>
           <div className="flex gap-2 items-end">
             <h2 className="text-3xl font-bold">{clicksToday}</h2>
             <span className="text-gray-500 text-sm">clicks</span>
           </div>
         </div>
-        <div className="bg-black rounded-2xl border p-4 col-span-3 flex flex-col gap-2 justify-between">
+        <div className="bg-black rounded-2xl border p-4 lg:col-span-3 col-span-9 flex flex-col gap-2 justify-between">
           <h3 className="text-gray-500">This Week</h3>
           <div className="flex gap-2 items-end">
             <h2 className="text-3xl font-bold">{clicksThisWeek}</h2>
             <span className="text-gray-500 text-sm">clicks</span>
           </div>
         </div>
-        <div className="bg-black rounded-2xl border p-4 col-span-3 flex flex-col gap-2 justify-between">
+        <div className="bg-black rounded-2xl border p-4 lg:col-span-3 col-span-9 flex flex-col gap-2 justify-between">
           <h3 className="text-gray-500">This Month</h3>
           <div className="flex gap-2 items-end">
             <h2 className="text-3xl font-bold">{clicksThisMonth}</h2>
