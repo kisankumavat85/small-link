@@ -164,20 +164,24 @@ export const getClickByMonth = async (userId: string) => {
   try {
     const clicks = await getClicksByDays(userId, -30);
 
-    const hourlyClicks = Array(30).fill(0);
+    const monthlyClicks = Array(32).fill(0);
 
-    clicks.forEach((click) => {
+    clicks.forEach((click, i) => {
       const createdAt = new Date(click.createdAt);
       const date = createdAt.getDate();
-      hourlyClicks[date]++;
+      console.log("date", date);
+      monthlyClicks[date]++;
+      console.log(i + "---", monthlyClicks[date]);
     });
 
-    const res = hourlyClicks.map((v, i) => ({
+    // console.log("hourlyClicks", monthlyClicks);
+
+    const res = monthlyClicks.map((v, i) => ({
       name: i,
       value: v,
     }));
 
-    return rotateArray(res, 29 - new Date().getDate());
+    return rotateArray(res, 31 - new Date().getDate());
   } catch (error) {
     console.error(error);
   }
